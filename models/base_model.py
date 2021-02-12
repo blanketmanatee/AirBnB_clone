@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" This module is used for the Base Model of the AirBNB Clone """
 from datetime import datetime
 import uuid
 
