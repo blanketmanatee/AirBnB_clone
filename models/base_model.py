@@ -32,7 +32,5 @@ class BaseModel():
         new_dict = self.__dict__
         new_dict['__class__'] = type(self).__name__
         return new_dict
-        
-    def __str__(self):
-        return ("[{}] ({}) {}".format(self).__class__, self.id, self.to_dict())
+
         
