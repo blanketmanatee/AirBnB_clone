@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+from datetime import datetime
+import uuid
+
 
 class BaseModel():
     """ 
@@ -16,6 +19,20 @@ class BaseModel():
     a key __class__ must be added to the dictionary w class name of object
     created_at and updated_at must be converted to string object in ISO format
     """
-    def __init__(self):
+    def __init__(self, id='', created_at='', updated_at=''):
         """ initialization """
+        self.id= str(uuid.uuid4())
+        self.created_at= str(datetime.now)
+        self.updated_at= str(datetime.now)
+        
+    def save(self):
+        self.updated_at= str(datetime.now)
+        
+    def to_dict(self):
+        new_dict = self.__dict__
+        new_dict['__class__'] = type(self).__name__
+        return new_dict
+        
+    def __str__(self):
+        return ("[{}] ({}) {}".format(self).__class__, self.id, self.to_dict())
         
