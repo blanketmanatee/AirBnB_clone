@@ -33,4 +33,5 @@ class BaseModel():
         new_dict['__class__'] = type(self).__name__
         return new_dict
 
-        
+    def __str__(self):
+        return f'{self.id} {self.__dict__}'
