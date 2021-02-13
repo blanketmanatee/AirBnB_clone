@@ -20,11 +20,19 @@ class BaseModel():
     a key __class__ must be added to the dictionary w class name of object
     created_at and updated_at must be converted to string object in ISO format
     """
-    def __init__(self, id='', created_at='', updated_at=''):
+    def __init__(self, *args, **kwargs):
         """ initialization """
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        if len(kwargs) > 1:
+            for key, value in kwargs.items():
+                if key == "id":
+                    self.id = value
+                if key == "created_at":
+                    self.created_at = value
+                if key == "updated_at":
+                    self.updated_at = value
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
 
     def save(self):
         self.updated_at = datetime.now()
