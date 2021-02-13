@@ -2,6 +2,7 @@
 """ This module is used for the Base Model of the AirBNB Clone """
 from datetime import datetime
 import uuid
+import models
 
 
 class BaseModel():
@@ -36,6 +37,7 @@ class BaseModel():
 
     def save(self):
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         new_dict = self.__dict__
