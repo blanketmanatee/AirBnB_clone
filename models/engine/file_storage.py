@@ -15,20 +15,22 @@ class FileStorage():
     save(self): serializes __objects to the JSON file
     reload(self): deserializes JSON file to __objects
     """
-    def __init__(self, file_path, objects):
+    def __init__(self, file_path, __objects):
         """ initialization """
         __file_path = "file.json"
         __objects = {}
 
     def all(self):
-        return __objects
+        return self.__objects
 
     def new(self, obj):
-    
+        self.__objects["{}.{}".format(obj.__class__.__name__, obj.id)] = obj
+
     def save(self):
-        with open('file.json', 'w') as outfile:
-        json_object = json.dump(__objects, file.json)   
+        __objects = {}
+        with open('self.file.json', 'w') as outfile:
+            json.dump(__objects, outfile)   
 
     def reload(self):
-        with open('file.json') as json_file:
+        with open('self.__file_path', 'r') as json_file:
             data = json.load(json_file)
