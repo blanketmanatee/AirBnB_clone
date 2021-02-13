@@ -13,4 +13,18 @@ class FileStorage():
     all(self): returns the dictionary __objects
     new(self, obj): sets in __objects the obj with key <obj class name>.id
     save(self): serializes __objects to the JSON file
-    reload(self): deserializes JSON file to __objects 
+    reload(self): deserializes JSON file to __objects
+    """
+    def __init__(self, file_path, objects):
+        """ initialization """
+        self.__file_path = file_path
+        self.__objects = objects
+
+    def all(self):
+        return __objects
+
+    def new(self, obj):
+    
+    def save(self):
+    
+    def reload(self):
