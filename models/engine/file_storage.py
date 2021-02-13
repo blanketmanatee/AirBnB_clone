@@ -17,8 +17,8 @@ class FileStorage():
     """
     def __init__(self, file_path, objects):
         """ initialization """
-        self.__file_path = file_path
-        self.__objects = objects
+        __file_path = "file.json"
+        __objects = {}
 
     def all(self):
         return __objects
@@ -26,5 +26,9 @@ class FileStorage():
     def new(self, obj):
     
     def save(self):
-    
+        with open('file.json', 'w') as outfile:
+        json_object = json.dump(__objects, file.json)   
+
     def reload(self):
+        with open('file.json') as json_file:
+            data = json.load(json_file)
