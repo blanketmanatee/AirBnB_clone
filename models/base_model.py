@@ -2,7 +2,7 @@
 """ This module is used for the Base Model of the AirBNB Clone """
 from datetime import datetime
 import uuid
-import models
+from models import storage
 
 
 class BaseModel():
@@ -13,7 +13,6 @@ class BaseModel():
     created_at - current datetime when an instance is created
     updated_at - current datetime updated when object is changed
     __str__ - should print [<class name>] (<self.id>) <self.__dict__>
-
     Public instance methods
     save(self) - updates updated_at with current datetime
     to_dict(self) - returns a dictionary representation of the instance
@@ -28,20 +27,23 @@ class BaseModel():
                 if key == "id":
                     self.id = value
                 if key == "created_at":
-                    self.created_at = value
+                    self.created_at = str(value)
                 if key == "updated_at":
-                    self.updated_at = value
+                    self.updated_at = str(value)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
+            storage.new(self)
 
     def save(self):
         self.updated_at = datetime.now()
-        models.storage.save()
+        storage.save()
 
     def to_dict(self):
         new_dict = self.__dict__
         new_dict['__class__'] = self.__class__.__name__
+        new_dict['created_at'] = datetime.isoformat(self.created_at)
+        new_dict['updated_at'] = datetime.isoformat(self.updated_at)
         return new_dict
 
     def __str__(self):
