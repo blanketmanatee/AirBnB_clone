@@ -34,9 +34,8 @@ class HBNBCommand(cmd.Cmd):
             arg_obj.save()
             print(arg_obj.id)
     def do_show(self, readline):
-        'prints a dictionary representation of '
+        'prints a dictionary representation of a given class.\n'
         args = readline.split(' ')
-        print(args)
         if len(args) > 2:
             print("** too many arguments - (<class name, id> format only) **")
         else:
@@ -55,9 +54,8 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     print("** instance id missing **")
     def do_delete(self, readline):
-        'deletes an instance of a class'
+        'deletes an instance of a class.\n'
         args = readline.split(' ')
-        print(args)
         if len(args) > 2:
             print("** too many arguments - (<class name, id> format only) **")
         else:
@@ -76,10 +74,56 @@ class HBNBCommand(cmd.Cmd):
                         print("** no instance found **")
                 else:
                     print("** instance id missing **")
-                    
-    def do_obj(self, arg):
-        'prints the current list of objects.'
-        print(storage.all())
+
+    def do_all(self, readline):
+        'prints string rep. of a given class.\n'
+        new_l = []
+        obj_args = storage.all()
+        if readline == "BaseModel" :
+            for keys in obj_args.keys():
+                if readline == obj_args[keys].__class__:
+                    new_l.append(str(obj_args[keys]))
+            print(new_l)
+        elif len(readline) == 0:
+            for keys in obj_args.keys():
+                new_l.append(str(obj_args[keys]))
+            print(new_l)
+        else:
+            print("** class doesn't exist **")
+
+    def do_update(self, readline):
+            'updates a instance with a new attribute.\n'
+            args = readline.split(' ')
+            try:
+                args[0]
+            except IndexError:
+                print("** class name missing **")
+                return
+            if args[0] == "BaseModel":
+                try:
+                    args[1]
+                except IndexError:
+                    print("** instance id missing **")
+                    return
+                key = args[0] + '.' + args[1]
+                arg_obj = storage.all()
+                if key in arg_obj:
+                    try:
+                        args[2]
+                    except IndexError:
+                        print("** attribute name missing **")
+                        return
+                    try:
+                        args[3]
+                    except IndexError:
+                        print("** value missing **")
+                        return
+                    setattr(arg_obj[key], args[2], str(args[3]))
+                else:
+                    print("** no instance found **")
+            else:
+                print("** class doesn't exist **")
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
