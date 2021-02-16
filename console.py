@@ -4,6 +4,7 @@ import cmd
 from models import storage
 from models.base_model import BaseModel
 
+
 class HBNBCommand(cmd.Cmd):
     """Command Line for HBNBClone"""
     intro = ''
@@ -53,6 +54,7 @@ class HBNBCommand(cmd.Cmd):
                         print("** no instance found **")
                 else:
                     print("** instance id missing **")
+
     def do_delete(self, readline):
         'deletes an instance of a class.\n'
         args = readline.split(' ')
@@ -79,7 +81,7 @@ class HBNBCommand(cmd.Cmd):
         'prints string rep. of a given class.\n'
         new_l = []
         obj_args = storage.all()
-        if readline == "BaseModel" :
+        if readline == "BaseModel":
             for keys in obj_args.keys():
                 if readline == obj_args[keys].__class__:
                     new_l.append(str(obj_args[keys]))
