@@ -34,6 +34,7 @@ class HBNBCommand(cmd.Cmd):
             arg_obj = BaseModel()
             arg_obj.save()
             print(arg_obj.id)
+
     def do_show(self, readline):
         """ prints a dictionary representation of a given class.\n """
         args = readline.split(' ')
