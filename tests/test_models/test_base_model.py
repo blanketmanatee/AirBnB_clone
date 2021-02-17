@@ -13,3 +13,9 @@ class TestBaseModel(unittest.TestCase):
         pep8style = pep8.StyleGuide(quiet=True)
         result = pep8style.check_files(['models/base_model.py'])
         self.assertEqual(result.total_errors, 0, "Pep has issues")
+
+    def test_class(self):
+        """ tests instance of class """
+        base = BaseModel()
+        self.assertTrue(isinstance(base, BaseModel))
+        
