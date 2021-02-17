@@ -95,37 +95,37 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def do_update(self, readline):
-            """ updates a instance with a new attribute.\n """
-            args = readline.split(' ')
+        """ updates a instance with a new attribute.\n """
+        args = readline.split(' ')
+        try:
+            args[0]
+        except IndexError:
+            print("** class name missing **")
+            return
+        if args[0] == "BaseModel":
             try:
-                args[0]
+                args[1]
             except IndexError:
-                print("** class name missing **")
+                print("** instance id missing **")
                 return
-            if args[0] == "BaseModel":
+            key = args[0] + '.' + args[1]
+            arg_obj = storage.all()
+            if key in arg_obj:
                 try:
-                    args[1]
+                    args[2]
                 except IndexError:
-                    print("** instance id missing **")
+                    print("** attribute name missing **")
                     return
-                key = args[0] + '.' + args[1]
-                arg_obj = storage.all()
-                if key in arg_obj:
-                    try:
-                        args[2]
-                    except IndexError:
-                        print("** attribute name missing **")
-                        return
-                    try:
-                        args[3]
-                    except IndexError:
-                        print("** value missing **")
-                        return
-                    setattr(arg_obj[key], args[2], str(args[3]))
-                else:
-                    print("** no instance found **")
+                try:
+                    args[3]
+                except IndexError:
+                    print("** value missing **")
+                    return
+                setattr(arg_obj[key], args[2], str(args[3]))
             else:
-                print("** class doesn't exist **")
+                print("** no instance found **")
+        else:
+            print("** class doesn't exist **")
 
 
 if __name__ == '__main__':
