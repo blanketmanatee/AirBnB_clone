@@ -5,6 +5,7 @@ import uuid
 from models import storage
 
 
+
 class BaseModel():
     """
     defines all common attributes/methods for other classes
