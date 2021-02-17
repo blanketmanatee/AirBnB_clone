@@ -27,9 +27,9 @@ class BaseModel():
                 if key == "id":
                     self.id = value
                 elif key == "created_at":
-                    self.created_at = str(value)
+                    setattr(self, key, str(value))
                 elif key == "updated_at":
-                    self.updated_at = str(value)
+                    setattr(self, key, str(value))
                 elif key != "__class__":
                     setattr(self, key, value)
         else:
@@ -54,4 +54,5 @@ class BaseModel():
 
     def __str__(self):
         """ should print: [<class name>] (<self.id>) <self.__dict__> """
-        return f('[{self.__class__.__name__}] ({self.id}) {self.__dict__}')
+        return "[{}] ({}) {}".format(
+            self.__class__.__name__, self.id, self.__dict__)
