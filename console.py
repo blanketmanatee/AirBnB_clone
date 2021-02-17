@@ -12,20 +12,20 @@ class HBNBCommand(cmd.Cmd):
     file = None
 
     def do_quit(self, arg):
-        'Exits the shell.\n'
+        """ Exits the shell.\n """
         return True
 
     def do_EOF(self, arg):
-        'Exits the shell by end of file. <Ctrl+D>\n'
+        """ Exits the shell by end of file. <Ctrl+D>\n """
         print()
         return True
 
     def emptyline(self):
-        'prevents ENTER from executing the previous command.\n'
+        """ prevents ENTER from executing the previous command.\n """
         pass
 
     def do_create(self, arg):
-        'creates a new BaseModel class.\n'
+        """ creates a new BaseModel class.\n """
         if arg is None:
             print("** class name missing **")
         elif arg != "BaseModel":
@@ -35,7 +35,7 @@ class HBNBCommand(cmd.Cmd):
             arg_obj.save()
             print(arg_obj.id)
     def do_show(self, readline):
-        'prints a dictionary representation of a given class.\n'
+        """ prints a dictionary representation of a given class.\n """
         args = readline.split(' ')
         if len(args) > 2:
             print("** too many arguments - (<class name, id> format only) **")
@@ -56,7 +56,7 @@ class HBNBCommand(cmd.Cmd):
                     print("** instance id missing **")
 
     def do_delete(self, readline):
-        'deletes an instance of a class.\n'
+        """ deletes an instance of a class.\n """
         args = readline.split(' ')
         if len(args) > 2:
             print("** too many arguments - (<class name, id> format only) **")
@@ -78,7 +78,7 @@ class HBNBCommand(cmd.Cmd):
                     print("** instance id missing **")
 
     def do_all(self, readline):
-        'prints string rep. of a given class.\n'
+        """ prints string rep. of a given class.\n """
         new_l = []
         obj_args = storage.all()
         if readline == "BaseModel":
@@ -94,7 +94,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def do_update(self, readline):
-            'updates a instance with a new attribute.\n'
+            """ updates a instance with a new attribute.\n """
             args = readline.split(' ')
             try:
                 args[0]
