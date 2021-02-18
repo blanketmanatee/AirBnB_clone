@@ -26,10 +26,9 @@ class BaseModel():
             for key, value in kwargs.items():
                 if key == "id":
                     self.id = value
-                elif key == "created_at":
-                    setattr(self, key, str(value))
-                elif key == "updated_at":
-                    setattr(self, key, str(value))
+                elif key == "created_at" or key == "updated_at":
+                    s_time = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
+                    setattr(self, key, s_time)
                 elif key != "__class__":
                     setattr(self, key, value)
         else:
@@ -48,8 +47,10 @@ class BaseModel():
         """ returns a dictionary of the instance """
         new_dict = self.__dict__
         new_dict['__class__'] = self.__class__.__name__
-        new_dict['created_at'] = datetime.isoformat(self.created_at)
-        new_dict['updated_at'] = datetime.isoformat(self.updated_at)
+        if isinstance(self.created_at, datetime) is True:
+            new_dict['created_at'] = datetime.isoformat(self.created_at)
+        if isinstance(self.updated_at, datetime) is True:
+            new_dict['updated_at'] = datetime.isoformat(self.updated_at)
         return new_dict
 
     def __str__(self):
