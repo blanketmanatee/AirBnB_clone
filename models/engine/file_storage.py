@@ -3,11 +3,13 @@
 
 import json
 from os.path import exists
+from models.base_model import BaseModel
 from models.user import User
 from models.city import City
 from models.place import Place
 from models.review import Review
 from models.state import State
+from models.amenity import Amenity
 
 
 class FileStorage():
@@ -24,7 +26,8 @@ class FileStorage():
 
     __file_path = "file.json"
     __objects = {}
-
+    class_ctrs = {"User": User, "City": City, "Place": Place, "State": State,
+                  "Review": Review, "BaseModel": BaseModel, "Amenity": Amenity}
     def all(self):
         """ returns dictionary __objects """
         return self.__objects
@@ -44,7 +47,11 @@ class FileStorage():
     def reload(self):
         """ deserializes the JSON file to __objects (only if the JSON file
         (__file_path) exists ; otherwise, do nothing.
-        If the file doesn’t exist, no exception should be raised) """
+        If the file doesnt exist, no exception should be raised) """
         if exists(self.__file_path):
             with open(self.__file_path, 'r') as j_file:
                 data = json.load(j_file)
+                for key in data.keys():
+                    class_name = str(data[key]['__class__'])
+                    if class_name in self.class_ctrs:
+                        self.__objects[key] = self.class_ctrs[class_name](**data[key])
