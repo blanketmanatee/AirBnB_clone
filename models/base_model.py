@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ This module is used for the Base Model of the AirBNB Clone """
-from datetime import datetime
+from datetime import datetime, date, time
 import uuid
 import models
 
@@ -27,9 +27,11 @@ class BaseModel():
                 if key == "id":
                     self.id = value
                 elif key == "created_at":
-                    setattr(self, key, str(value))
+                    self.created_at = datetime.strptime(kwargs.get(key),
+                                                        '%Y-%m-%dT%H:%M:%S.%f')
                 elif key == "updated_at":
-                    setattr(self, key, str(value))
+                    self.updated_at = datetime.strptime(kwargs.get(key),
+                                                        '%Y-%m-%dT%H:%M:%S.%f')
                 elif key != "__class__":
                     setattr(self, key, value)
         else:
@@ -48,8 +50,8 @@ class BaseModel():
         """ returns a dictionary of the instance """
         new_dict = self.__dict__
         new_dict['__class__'] = self.__class__.__name__
-        new_dict['created_at'] = datetime.isoformat(self.created_at)
-        new_dict['updated_at'] = datetime.isoformat(self.updated_at)
+        new_dict['created_at'] = self.created_at.isoformat()
+        new_dict['updated_at'] = self.updated_at.isoformat()
         return new_dict
 
     def __str__(self):
