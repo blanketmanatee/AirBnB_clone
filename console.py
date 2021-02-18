@@ -3,13 +3,18 @@
 import cmd
 from models import storage
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
     """Command Line for HBNBClone"""
-    intro = ''
-    prompt = '(hbnb) '
+    prompt = '(hbnb)'
     file = None
+    class_names = ["User", "City", "Place", "State", "Review", "BaseModel"]
 
     def do_quit(self, arg):
         """ Exits the shell.\n """
@@ -26,9 +31,9 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """ creates a new BaseModel class.\n """
-        if arg is None:
+        if len(arg) == 0:
             print("** class name missing **")
-        elif arg != "BaseModel":
+        elif arg not in self.class_names:
             print("** class doesn't exist **")
         else:
             arg_obj = BaseModel()
@@ -41,20 +46,22 @@ class HBNBCommand(cmd.Cmd):
         if len(args) > 2:
             print("** too many arguments - (<class name, id> format only) **")
         else:
-            if args[0] != "BaseModel":
-                print("** class name doesn't exist **")
-            elif args[0] is None:
+            if len(args[0]) == 0:
                 print("** class name missing **")
-            elif len(args) > 1:
-                if args[1] is not None:
-                    key = args[0] + '.' + args[1]
-                    arg_obj = storage.all()
-                    if key in arg_obj:
-                        print(arg_obj[key])
-                    else:
-                        print("** no instance found **")
-                else:
+            elif args[0] not in self.class_names:
+                print("** class name doesn't exist **")
+            else:
+                try:
+                    args[1]
+                except IndexError:
                     print("** instance id missing **")
+                    return
+                key = args[0] + '.' + args[1]
+                arg_obj = storage.all()
+                if key in arg_obj:
+                    print(arg_obj[key])
+                else:
+                    print("** no instance found **")
 
     def do_delete(self, readline):
         """ deletes an instance of a class.\n """
@@ -62,32 +69,35 @@ class HBNBCommand(cmd.Cmd):
         if len(args) > 2:
             print("** too many arguments - (<class name, id> format only) **")
         else:
-            if args[0] != "BaseModel":
-                print("** class name doesn't exist **")
-            elif args[0] is None:
+            if len(args[0]) == 0:
                 print("** class name missing **")
-            elif len(args) > 1:
-                if args[1] is not None:
-                    key = args[0] + '.' + args[1]
-                    arg_obj = storage.all()
-                    if key in arg_obj:
-                        del arg_obj[key]
-                        storage.save()
-                    else:
-                        print("** no instance found **")
-                else:
+            elif args[0] not in self.class_names:
+                print("** class name doesn't exist **")
+            else:
+                try:
+                    args[1]
+                except IndexError:
                     print("** instance id missing **")
+                    return
+                key = args[0] + '.' + args[1]
+                arg_obj = storage.all()
+                if key in arg_obj:
+                    del arg_obj[key]
+                    storage.save()
+                else:
+                    print("** no instance found **")
 
     def do_all(self, readline):
         """ prints string rep. of a given class.\n """
         new_l = []
         obj_args = storage.all()
-        if readline == "BaseModel":
+        args = readline.split(' ')
+        if args[0] in self.class_names:
             for keys in obj_args.keys():
                 if readline == obj_args[keys].__class__:
                     new_l.append(str(obj_args[keys]))
             print(new_l)
-        elif len(readline) == 0:
+        elif len(args[0]) == 0:
             for keys in obj_args.keys():
                 new_l.append(str(obj_args[keys]))
             print(new_l)
@@ -97,12 +107,7 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, readline):
         """ updates a instance with a new attribute.\n """
         args = readline.split(' ')
-        try:
-            args[0]
-        except IndexError:
-            print("** class name missing **")
-            return
-        if args[0] == "BaseModel":
+        if args[0] in self.class_names:
             try:
                 args[1]
             except IndexError:
@@ -124,6 +129,8 @@ class HBNBCommand(cmd.Cmd):
                 setattr(arg_obj[key], args[2], str(args[3]))
             else:
                 print("** no instance found **")
+        elif len(args[0]) == 0:
+            print("** class name missing **")
         else:
             print("** class doesn't exist **")
 
