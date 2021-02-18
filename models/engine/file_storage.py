@@ -28,6 +28,7 @@ class FileStorage():
     __objects = {}
     class_ctrs = {"User": User, "City": City, "Place": Place, "State": State,
                   "Review": Review, "BaseModel": BaseModel, "Amenity": Amenity}
+
     def all(self):
         """ returns dictionary __objects """
         return self.__objects
@@ -54,4 +55,5 @@ class FileStorage():
                 for key in data.keys():
                     class_name = str(data[key]['__class__'])
                     if class_name in self.class_ctrs:
-                        self.__objects[key] = self.class_ctrs[class_name](**data[key])
+                        self.__objects[key] = self.class_ctrs[class_name](
+                            **data[key])
