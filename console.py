@@ -15,7 +15,7 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb)'
     file = None
     class_ctrs = {"User": User, "City": City, "Place": Place, "State": State,
-                  "Review": Review, "BaseModel": BaseModel}
+                  "Review": Review, "BaseModel": BaseModel, "Amenity": Amenity}
 
     def do_quit(self, arg):
         """ Exits the shell.\n """
