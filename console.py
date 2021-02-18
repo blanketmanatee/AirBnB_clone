@@ -14,7 +14,8 @@ class HBNBCommand(cmd.Cmd):
     """Command Line for HBNBClone"""
     prompt = '(hbnb)'
     file = None
-    class_names = ["User", "City", "Place", "State", "Review", "BaseModel"]
+    class_ctrs = {"User": User, "City": City, "Place": Place, "State": State,
+                  "Review": Review, "BaseModel": BaseModel}
 
     def do_quit(self, arg):
         """ Exits the shell.\n """
@@ -33,10 +34,10 @@ class HBNBCommand(cmd.Cmd):
         """ creates a new BaseModel class.\n """
         if len(arg) == 0:
             print("** class name missing **")
-        elif arg not in self.class_names:
+        elif arg not in self.class_ctrs.keys():
             print("** class doesn't exist **")
         else:
-            arg_obj = BaseModel()
+            arg_obj = self.class_ctrs[arg]()
             arg_obj.save()
             print(arg_obj.id)
 
@@ -48,7 +49,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             if len(args[0]) == 0:
                 print("** class name missing **")
-            elif args[0] not in self.class_names:
+            elif args[0] not in self.class_ctrs.keys():
                 print("** class name doesn't exist **")
             else:
                 try:
@@ -71,7 +72,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             if len(args[0]) == 0:
                 print("** class name missing **")
-            elif args[0] not in self.class_names:
+            elif args[0] not in self.class_ctrs.keys():
                 print("** class name doesn't exist **")
             else:
                 try:
@@ -92,7 +93,7 @@ class HBNBCommand(cmd.Cmd):
         new_l = []
         obj_args = storage.all()
         args = readline.split(' ')
-        if args[0] in self.class_names:
+        if args[0] in self.class_ctrs.keys():
             for keys in obj_args.keys():
                 if readline == obj_args[keys].__class__:
                     new_l.append(str(obj_args[keys]))
@@ -107,7 +108,7 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, readline):
         """ updates a instance with a new attribute.\n """
         args = readline.split(' ')
-        if args[0] in self.class_names:
+        if args[0] in self.class_ctrs.keys():
             try:
                 args[1]
             except IndexError:
