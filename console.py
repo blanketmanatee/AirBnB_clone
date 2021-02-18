@@ -95,7 +95,7 @@ class HBNBCommand(cmd.Cmd):
         args = readline.split(' ')
         if args[0] in self.class_ctrs.keys():
             for keys in obj_args.keys():
-                if readline == obj_args[keys].__class__:
+                if readline == obj_args[keys].__class__.__name__:
                     new_l.append(str(obj_args[keys]))
             print(new_l)
         elif len(args[0]) == 0:
