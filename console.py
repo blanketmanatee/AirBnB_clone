@@ -71,26 +71,24 @@ class HBNBCommand(cmd.Cmd):
     def do_delete(self, readline):
         """ deletes an instance of a class.\n """
         args = readline.split(' ')
-        if len(args) > 2:
-            print("** too many arguments - (<class name, id> format only) **")
+        if len(args[0]) == 0:
+            print("** class name missing **")
+        elif args[0] not in self.class_ctrs.keys():
+            print("** class name doesn't exist **")
         else:
-            if len(args[0]) == 0:
-                print("** class name missing **")
-            elif args[0] not in self.class_ctrs.keys():
-                print("** class name doesn't exist **")
-            else:
-                try:
-                    args[1]
-                except IndexError:
-                    print("** instance id missing **")
-                    return
-                key = args[0] + '.' + args[1]
-                arg_obj = storage.all()
-                if key in arg_obj:
+            try:
+                args[1]
+            except IndexError:
+                print("** instance id missing **")
+                return
+            key = args[0] + '.' + args[1]
+            arg_obj = storage.all()
+            if key in arg_obj:
+                if args[0] == arg_obj[key]['__class__']:
                     del arg_obj[key]
                     storage.save()
-                else:
-                    print("** no instance found **")
+            else:
+                print("** no instance found **")
 
     def do_all(self, readline):
         """ prints string rep. of a given class.\n """
