@@ -17,6 +17,9 @@ class HBNBCommand(cmd.Cmd):
     file = None
     class_ctrs = {"User": User, "City": City, "Place": Place, "State": State,
                   "Review": Review, "BaseModel": BaseModel, "Amenity": Amenity}
+    attr_flo = ["latitude", "longitude"]
+    attr_int = ["number_rooms", "number_bathrooms", "max_guest",
+                "price_by_night"]
 
     def do_quit(self, arg):
         """ Exits the shell.\n """
@@ -128,7 +131,12 @@ class HBNBCommand(cmd.Cmd):
                 except IndexError:
                     print("** value missing **")
                     return
-                setattr(arg_obj[key], args[2], str(args[3]))
+                if args[2] in self.attr_int:
+                    setattr(arg_obj[key], args[2], int(args[3]))
+                elif args[2] in self.attr_flo:
+                    setattr(arg_obj[key], args[2], float(args[3]))
+                else:
+                    setattr(arg_obj[key], args[2], str(args[3]))
             else:
                 print("** no instance found **")
         elif len(args[0]) == 0:
