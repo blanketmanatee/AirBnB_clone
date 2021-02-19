@@ -68,7 +68,7 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     print("** no instance found **")
 
-    def do_delete(self, readline):
+    def do_destroy(self, readline):
         """ deletes an instance of a class.\n """
         args = readline.split(' ')
         if len(args[0]) == 0:
@@ -83,10 +83,9 @@ class HBNBCommand(cmd.Cmd):
                 return
             key = args[0] + '.' + args[1]
             arg_obj = storage.all()
-            if key in arg_obj:
-                if args[0] == arg_obj[key]['__class__']:
-                    del arg_obj[key]
-                    storage.save()
+            if key in arg_obj.keys():
+                del arg_obj[key]
+                storage.save()
             else:
                 print("** no instance found **")
 
@@ -144,4 +143,3 @@ class HBNBCommand(cmd.Cmd):
 
 
 if __name__ == '__main__':
-    HBNBCommand().cmdloop()
